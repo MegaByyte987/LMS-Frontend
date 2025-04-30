@@ -22,13 +22,13 @@ export default function Sidebar() {
         </ul>
         <Button
           type="button"
-          content="Logout"
+          label="Logout"
           className="bg-black rounded-none py-4 cursor-pointer"
           onClick={() => {
             localStorage.removeItem("token");
             navigate("/login");
           }}
-          icon={<LogOut />}
+          buttonIcon={<LogOut />}
         />
       </div>
     </aside>

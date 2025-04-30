@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "../utils/axiosInterceptor";
 import Button from "../components/button";
 import { useNavigate } from "react-router";
+import { PencilIcon, Trash2Icon } from "lucide-react";
 
-interface Book {
-  id: number;
-  title: string;
-  author: string;
-  // TODO: update interface for remaining fields
+export interface Book {
+  id?: number;
+  title?: string;
+  author?: string;
+  available_copies?: number;
+  availability?: boolean;
 }
 
 export default function Books() {
@@ -34,7 +36,7 @@ export default function Books() {
         <h1 className="text-lg font-bold">Books</h1>
         <Button
           type="button"
-          content="+ Add Book"
+          label="+ Add Book"
           className="bg-black text-white px-2 text-xs cursor-pointer"
           onClick={() => navigate("/add-book")}
         />
@@ -44,7 +46,9 @@ export default function Books() {
           <tr>
             <th>Title</th>
             <th>Author</th>
-            {/* TODO: add remaining header for Books */}
+            <th>Quantity</th>
+            <th>Is Available?</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -52,7 +56,21 @@ export default function Books() {
             <tr key={book.id}>
               <td>{book?.title}</td>
               <td>{book?.author}</td>
-              {/* TODO: add remaining data fields for Books */}
+              <td>{book?.available_copies}</td>
+              <td>{book?.availability ? "Yes" : "No"}</td>
+              <td>
+                <div className="flex gap-4 items-center justify-center">
+                  <PencilIcon
+                    className="text-blue-400 cursor-pointer"
+                    size={16}
+                    onClick={() => navigate(`/edit-book/${book.id}`)}
+                  />
+                  <Trash2Icon
+                    className="text-red-400 cursor-pointer"
+                    size={16}
+                  />
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>

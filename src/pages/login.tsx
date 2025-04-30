@@ -16,7 +16,7 @@ const Login = () => {
     console.log(formValues);
 
     try {
-      const response = await axiosInstance(`/auth/loginUser`, {
+      const response = await axiosInstance(`/auth/login`, {
         method: "POST",
         data: formValues,
       });
@@ -27,7 +27,6 @@ const Login = () => {
       toast("Welcome!!", {
         type: "success",
       });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.log(err);
       toast("Something went wrong! Please try again!!", {
@@ -44,15 +43,15 @@ const Login = () => {
           Login
         </h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <Input name="username" type="text" id="username" content="Username" />
+          <Input name="username" type="text" id="username" label="Username" />
           <Input
             name="password"
             type="password"
             id="password"
-            content="Password"
+            label="Password"
           />
           {error && <p className="text-red-500">{error}</p>}
-          <Button content="Login" type="submit" className="bg-blue-600" />
+          <Button label="Login" type="submit" className="bg-blue-600" />
         </form>
         <p className="text-center mt-4">
           Don't have an account?{" "}

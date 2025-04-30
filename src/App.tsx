@@ -28,14 +28,17 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<ProtectedRoutes />}>
         {/* These routes is rendered by Outlet in AppLayout */}
+        <Route path="/" element={<Navigate to="/books" />} />
         <Route path="/books" element={<Books />} />
-        <Route
-          path="/add-book"
-          element={<AddBook />}
-        />
+        <Route path="/add-book" element={<AddBook />} />
+        <Route path="/edit-book/:id" element={<AddBook />} />
         <Route path="/members" element={<p>Members</p>} />
         <Route path="/transactions" element={<p>Transactions</p>} />
       </Route>
+      <Route
+        path="*"
+        element={<p className="text-center">ERROR 404: Page not found!!</p>}
+      />
     </Routes>
   );
 }

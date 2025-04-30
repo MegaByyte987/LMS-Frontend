@@ -7,7 +7,7 @@ export default function AppLayout() {
       {/* Sidebar */}
       <Sidebar />
       {/* content body */}
-      <div className="w-[80%] h-full flex justify-center items-center">
+      <div className="w-[80%] h-full flex justify-center pt-8">
         {/* Outlet renders the matching child route of a parent route
           parent route: "/" - AppLayout
           child routes: "/books", "/members", ...

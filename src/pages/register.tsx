@@ -13,7 +13,7 @@ const Register = () => {
     console.log(formValues);
 
     try {
-      const response = await axiosInstance("/auth/registerUser", {
+      const response = await axiosInstance("/auth/register", {
         method: "POST",
         data: formValues,
       });
@@ -34,16 +34,16 @@ const Register = () => {
           Register
         </h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <Input name="name" type="text" id="name" content="Name" />
-          <Input name="email" type="email" id="email" content="Email" />
-          <Input name="phone" type="tel" id="phone" content="Phone" />
+          <Input name="name" type="text" id="name" label="Name" />
+          <Input name="email" type="email" id="email" label="Email" />
+          <Input name="phone" type="tel" id="phone" label="Phone" />
           <Input
             name="password"
             type="password"
             id="password"
-            content="Password"
+            label="Password"
           />
-          <Button content="Register" type="submit" className="bg-blue-600" />
+          <Button label="Register" type="submit" className="bg-blue-600" />
         </form>
         {/* TODO: Add link to login page similar to Login page */}
       </div>
