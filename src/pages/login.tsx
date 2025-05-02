@@ -16,7 +16,7 @@ const Login = () => {
     console.log(formValues);
 
     try {
-      const response = await axiosInstance(`/auth/login`, {
+      const response = await axiosInstance(`/auth/loginUser`, {
         method: "POST",
         data: formValues,
       });
@@ -27,12 +27,13 @@ const Login = () => {
       toast("Welcome!!", {
         type: "success",
       });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.log(err);
       toast("Something went wrong! Please try again!!", {
         type: "error",
       });
-      setError(err?.response?.data?.message ?? "Unexpected error");
+      setError(err?.response?.data?.essage ?? "Unexpected error");
     }
   };
 

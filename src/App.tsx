@@ -5,6 +5,8 @@ import Login from "./pages/login";
 import { jwtDecode } from "jwt-decode";
 import Books from "./pages/books";
 import AddBook from "./pages/add-book";
+import Members from "./pages/members";
+import AddMember from "./pages/add-member";
 
 const ProtectedRoutes = () => {
   const token = localStorage.getItem("token");
@@ -32,7 +34,9 @@ function App() {
         <Route path="/books" element={<Books />} />
         <Route path="/add-book" element={<AddBook />} />
         <Route path="/edit-book/:id" element={<AddBook />} />
-        <Route path="/members" element={<p>Members</p>} />
+        <Route path="/members" element={<Members />} />
+        <Route path="/add-member" element={<AddMember />} />
+        <Route path="/edit-member/:id" element={<AddMember />} />
         <Route path="/transactions" element={<p>Transactions</p>} />
       </Route>
       <Route

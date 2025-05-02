@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormEvent, useEffect, useState } from "react";
 import Button from "../components/button";
 import Input from "../components/input";
@@ -5,11 +6,11 @@ import { axiosInstance } from "../utils/axiosInterceptor";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router";
 import { ArrowLeftIcon } from "lucide-react";
-import { FormBook } from "./books";
+import { Member } from "./members";
 
-const AddBook = () => {
+const AddMember = () => {
   const navigate = useNavigate();
-  const [bookData, setBookData] = useState<FormBook>();
+  const [memberData, setMemberData] = useState<Member>();
   const [errorMessage, setErrorMessage] = useState("");
 
   const { id } = useParams();
@@ -19,19 +20,18 @@ const AddBook = () => {
     const formData = new FormData(e.currentTarget);
     const formValues = JSON.stringify(Object.fromEntries(formData.entries()));
     const parsedFormValues = JSON.parse(formValues);
-    const url = id ? `/books/${id}` : "/books";
+    const url = id ? `/members/${id}` : "/members";
 
     try {
       await axiosInstance(url, {
         method: id ? "PATCH" : "POST",
         data: {
           ...parsedFormValues,
-          quantity: parseInt(parsedFormValues?.quantity, 10),
-          availability: parsedFormValues?.availability === "on",
+          user_id:4,
         },
       });
 
-      toast.success("Book Added Successfully", {
+      toast.success("Member Added Successfully", {
         position: "top-right",
         autoClose: 1000,
         hideProgressBar: false,
@@ -40,7 +40,7 @@ const AddBook = () => {
         draggable: true,
         progress: undefined,
       });
-      navigate("/books");
+      navigate("/members");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setErrorMessage(
@@ -58,88 +58,79 @@ const AddBook = () => {
     }
   };
 
-  const fetchBookFromId = async () => {
+  const fetchMemberFromId = async () => {
     try {
-      const response = await axiosInstance(`/books/${id}`);
-      setBookData({ ...response.data, availability: true });
+      const response = await axiosInstance(`/members/${id}`);
+      setMemberData({ ...response.data, availability: true });
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    fetchBookFromId();
+    fetchMemberFromId();
   }, [id]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleBookDataChange = (e: any) => {
+  const handleMemberDataChange = (e: any) => {
     const { name, value, checked } = e.target;
 
-    setBookData((prevData) => ({
+    setMemberData((prevData) => ({
       ...prevData,
       [name]: name === "availability" ? checked : value,
     }));
-    console.log(bookData);
+    console.log(memberData);
   };
 
   return (
     <div className="w-full p-8">
       <div className="flex items-center mb-2 gap-2">
         <ArrowLeftIcon
-          onClick={() => navigate("/books")}
+          onClick={() => navigate("/members")}
           className="cursor-pointer"
         />
         {/* TODO: update title for edit mode */}
-        <h1 className="text-2xl font-bold text-center">Add Books</h1>
+        <h1 className="text-2xl font-bold text-center">Add Members</h1>
       </div>
       <form className="space-y-4" onSubmit={handleSubmit}>
         <Input
-          name="title"
+          name="name"
           type="text"
-          id="title"
-          label="Title"
-          value={bookData?.title}
-          onChange={handleBookDataChange}
+          id="name"
+          label="Name"
+          value={memberData?.name}
+          onChange={handleMemberDataChange}
         />
         <Input
-          name="author"
+          name="email"
           type="text"
-          id="author"
-          label="Author"
-          value={bookData?.author}
-          onChange={handleBookDataChange}
+          id="email"
+          label="Email"
+          value={memberData?.email}
+          onChange={handleMemberDataChange}
         />
         <Input
-          name="quantity"
-          type="number"
-          id="quantity"
-          label="Quantity"
-          value={bookData?.quantity}
-          onChange={handleBookDataChange}
+          name="mobile"
+          type="text"
+          id="mobile"
+          label="Mobile"
+          value={memberData?.mobile}
+          onChange={handleMemberDataChange}
         />
-        <div className="flex items-center ">
-          <label
-            htmlFor="availability"
-            className=" text-gray-700 text-sm font-bold "
-          >
-            Availability:
-          </label>
-          <input
-            type="checkbox"
-            id="availability"
-            name="availability"
-            className="mx-3 size-5"
-            onChange={handleBookDataChange}
-            checked={bookData?.availability}
-          />
-        </div>
+        <Input
+          name="address"
+          type="text"
+          id="address"
+          label="Address"
+          value={memberData?.mobile}
+          onChange={handleMemberDataChange}
+        />
         {errorMessage && (
           <p className="text-red-500 text-lg text-center">{errorMessage}</p>
         )}
-        <Button label={id ? "Edit Book" : "Add Book"} type="submit" />
+        <Button label={id ? "Edit Member" : "Add Member"} type="submit" />
       </form>
     </div>
   );
 };
 
-export default AddBook;
+export default AddMember;

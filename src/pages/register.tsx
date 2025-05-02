@@ -13,7 +13,7 @@ const Register = () => {
     console.log(formValues);
 
     try {
-      const response = await axiosInstance("/auth/register", {
+      const response = await axiosInstance("/auth/registerUser", {
         method: "POST",
         data: formValues,
       });
