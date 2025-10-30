@@ -4,11 +4,20 @@ import "./index.css";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router";
 import { ToastContainer } from "react-toastify";
+import { ThemeProvider } from "./context/themeContext.tsx";
+import {BooksProvider} from "./context/booksContext.tsx"
+import { MemberProvider } from "./context/membersContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <ThemeProvider>
+        <BooksProvider>
+        <MemberProvider>
+          <App />
+          </MemberProvider>  
+        </BooksProvider>
+      </ThemeProvider>
       <ToastContainer />
     </BrowserRouter>
   </StrictMode>

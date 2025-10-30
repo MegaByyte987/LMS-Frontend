@@ -27,7 +27,6 @@ const AddMember = () => {
         method: id ? "PATCH" : "POST",
         data: {
           ...parsedFormValues,
-          user_id:4,
         },
       });
 
@@ -72,11 +71,11 @@ const AddMember = () => {
   }, [id]);
 
   const handleMemberDataChange = (e: any) => {
-    const { name, value, checked } = e.target;
+    const { name, value } = e.target;
 
     setMemberData((prevData) => ({
       ...prevData,
-      [name]: name === "availability" ? checked : value,
+      [name]: value,
     }));
     console.log(memberData);
   };
@@ -89,7 +88,11 @@ const AddMember = () => {
           className="cursor-pointer"
         />
         {/* TODO: update title for edit mode */}
-        <h1 className="text-2xl font-bold text-center">Add Members</h1>
+        <h1 className="text-2xl font-bold text-center">{id ? "Edit Member" : "Add Member"}</h1>
+        <h4 className="text-2xlr">
+          {id ? "Edit the details of the member you want to change" :
+           "Enter the details of the member you want to add to the database"}
+        </h4>
       </div>
       <form className="space-y-4" onSubmit={handleSubmit}>
         <Input
@@ -102,7 +105,7 @@ const AddMember = () => {
         />
         <Input
           name="email"
-          type="text"
+          type="email"
           id="email"
           label="Email"
           value={memberData?.email}
@@ -121,7 +124,7 @@ const AddMember = () => {
           type="text"
           id="address"
           label="Address"
-          value={memberData?.mobile}
+          value={memberData?.address}
           onChange={handleMemberDataChange}
         />
         {errorMessage && (

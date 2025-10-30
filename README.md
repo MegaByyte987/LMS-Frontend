@@ -45,3 +45,11 @@
 - POST - body
 - PATCH/PUT - body
 - DELETE
+
+
+## Redux
+-Actions
+-Reducers
+-Slice
+-useSelector
+-useSplice

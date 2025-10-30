@@ -4,6 +4,12 @@ import Input from "../components/input";
 import { NavLink, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { axiosInstance } from "../utils/axiosInterceptor";
+import { object, string } from "yup";
+
+let loginSchema = object({
+  username: string().required(),
+  password: string().required("Password is required!"),
+});
 
 const Login = () => {
   const [error, setError] = useState<string | null>(null);
@@ -16,9 +22,10 @@ const Login = () => {
     console.log(formValues);
 
     try {
+      const values = await loginSchema.validate(formValues)
       const response = await axiosInstance(`/auth/loginUser`, {
         method: "POST",
-        data: formValues,
+        data: values,
       });
       console.log(response.data.token);
       localStorage.setItem("token", response.data.token);

@@ -3,6 +3,14 @@ import Button from "../components/button";
 import Input from "../components/input";
 import { useNavigate } from "react-router";
 import { axiosInstance } from "../utils/axiosInterceptor";
+import { object, string } from "yup";
+
+let registerSchema = object({
+  name: string().required(),
+  email: string().email().required(),
+  mobile: string().required(),
+  password: string().required("Password is required!"),
+});
 
 const Register = () => {
   const navigate = useNavigate();
@@ -13,9 +21,10 @@ const Register = () => {
     console.log(formValues);
 
     try {
+      const values = await registerSchema.validate(formValues);
       const response = await axiosInstance("/auth/registerUser", {
         method: "POST",
-        data: formValues,
+        data: values,
       });
       localStorage.setItem("token", response.data.token);
       navigate("/");

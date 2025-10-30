@@ -61,6 +61,7 @@ const AddBook = () => {
   const fetchBookFromId = async () => {
     try {
       const response = await axiosInstance(`/books/${id}`);
+      console.log(response.data)
       setBookData({ ...response.data, availability: true });
     } catch (error) {
       console.log(error);
@@ -69,6 +70,7 @@ const AddBook = () => {
 
   useEffect(() => {
     fetchBookFromId();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -83,16 +85,20 @@ const AddBook = () => {
   };
 
   return (
-    <div className="w-full p-8">
+    <div className="w-full p-8 bg-gray-300">
       <div className="flex items-center mb-2 gap-2">
         <ArrowLeftIcon
           onClick={() => navigate("/books")}
-          className="cursor-pointer"
+          className="cursor-pointer w-fit"
         />
-        {/* TODO: update title for edit mode */}
-        <h1 className="text-2xl font-bold text-center">Add Books</h1>
       </div>
-      <form className="space-y-4" onSubmit={handleSubmit}>
+      <form className="space-y-4 w-100 max-w-md mx-auto mt-10 p-6 rounded-xl bg-white shadow-md" onSubmit={handleSubmit}>
+        <h1 className="text-2xl">
+          {id ? "Edit Book" : "Add Book"}
+        </h1>
+        <h4 className="text-2xlr">
+          {id ? "Edit the details of the book" : "Enter the details of the book"}
+        </h4>
         <Input
           name="title"
           type="text"
@@ -128,7 +134,7 @@ const AddBook = () => {
             type="checkbox"
             id="availability"
             name="availability"
-            className="mx-3 size-5"
+            className="mx-3 size-5 h-4 w-4 text-black border-gray-300 rounded"
             onChange={handleBookDataChange}
             checked={bookData?.availability}
           />

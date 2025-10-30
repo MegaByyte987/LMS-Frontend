@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
-import { axiosInstance } from "../utils/axiosInterceptor";
+import { useState } from "react";
 import Button from "../components/button";
 import { useNavigate } from "react-router";
 import { PencilIcon, Trash2Icon } from "lucide-react";
 import CustomModal from "../components/customModal";
-import { toast } from "react-toastify";
+import { useBook } from "../context/booksContext";
 
 export interface FormBook {
   id?: number;
@@ -23,42 +22,18 @@ export interface Book {
 }
 
 export default function Books() {
-  const [data, setData] = useState<Book[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBookId, setSelectedBookId] = useState<number | null>(null);
+  const {bookData: data, onDelete} = useBook();
 
   const navigate = useNavigate();
 
-  const fetchBooks = async () => {
-    try {
-      const response = await axiosInstance("/books");
-      console.log(response);
-      setData(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleDelete = async () => {
-    try {
-      await axiosInstance.delete(`/books/${selectedBookId}`);
-      const newData = [...data].filter((book) => book.id !== selectedBookId);
-      setData(newData);
-      setIsModalOpen(false);
-      toast.success("Book deleted successfully!");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      console.log(err);
-      setIsModalOpen(false);
-      toast.error(
-        err?.response?.data?.message ?? "Error while deleting the book"
-      );
-    }
+   if(selectedBookId){
+    onDelete(selectedBookId);
+   }
+   setIsModalOpen(false);
   };
-
-  useEffect(() => {
-    fetchBooks();
-  }, []); // runs fetchBooks() once on page load
 
   return (
     <div className="h-full w-full flex flex-col p-8">
@@ -72,12 +47,12 @@ export default function Books() {
         />
       </div>
       <table className="w-full">
-        <thead>
+        <thead className="bg-gray-500">
           <tr>
             <th>Title</th>
             <th>Author</th>
             <th>Quantity</th>
-            <th>Is Available?</th>
+            <th>Quantity</th>
             <th>Actions</th>
           </tr>
         </thead>
